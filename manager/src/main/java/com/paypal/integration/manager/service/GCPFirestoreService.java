@@ -10,6 +10,7 @@ import com.google.firebase.FirebaseApp;
 import com.google.firebase.FirebaseOptions;
 import com.google.firebase.cloud.FirestoreClient;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Service;
 import org.springframework.util.ResourceUtils;
@@ -26,9 +27,12 @@ public class GCPFirestoreService {
     @Autowired
     private Firestore db;
 
+    @Value("${google.cert}")
+    private String certFileName;
+
     @Bean
     public Firestore firestore () throws IOException {
-        File certFile = ResourceUtils.getFile("classpath:certs/performtable-bound-b24df187caa8.json");
+        File certFile = ResourceUtils.getFile("classpath:certs/" + certFileName);
         InputStream serviceAccount = new FileInputStream(certFile);
         GoogleCredentials credentials = GoogleCredentials.fromStream(serviceAccount);
         FirebaseOptions options = new FirebaseOptions.Builder()
