@@ -27,12 +27,9 @@ public class GCPFirestoreService {
     @Autowired
     private Firestore db;
 
-    @Value("${google.cert}")
-    private String certFileName;
-
     @Bean
     public Firestore firestore () throws IOException {
-        File certFile = ResourceUtils.getFile("classpath:certs/" + certFileName);
+        File certFile = ResourceUtils.getFile("classpath:certs/performtable-bound-b24df187caa8.json");
         InputStream serviceAccount = new FileInputStream(certFile);
         GoogleCredentials credentials = GoogleCredentials.fromStream(serviceAccount);
         FirebaseOptions options = new FirebaseOptions.Builder()
